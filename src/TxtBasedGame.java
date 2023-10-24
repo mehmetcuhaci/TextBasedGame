@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class TxtBasedGame {
     public static void main(String[] args) {
 
-        String jsonFilePath = "C:\\Users\\mehme\\Desktop\\TbT\\questions.json";  // Replace with the actual file path
+        String jsonFilePath = "C:\\Users\\mehme\\Desktop\\TbT\\questions.json";  // herkes kendi bilgisayarındaki yolu girsin
         try {
             Gson gson = new Gson();
             Reader reader = new FileReader(jsonFilePath);
@@ -20,49 +20,25 @@ public class TxtBasedGame {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.print("Choose a difficulty (easy, medium, difficult): ");
+            System.out.print("Lütfen zorluk seçiniz (kolay,orta,zor): ");
             String difficulty = scanner.nextLine().toLowerCase();
 
             List<Question> questions = null;
-            if ("easy".equals(difficulty)) {
+            if ("kolay".equals(difficulty)) {
                 questions = quizData.getData().getQuestions().getEasy();
-            } else if ("medium".equals(difficulty)) {
+            } else if ("orta".equals(difficulty)) {
                 questions = quizData.getData().getQuestions().getMedium();
-            } else if ("difficult".equals(difficulty)) {
+            } else if ("zor".equals(difficulty)) {
                 questions = quizData.getData().getQuestions().getDifficult();
             } else {
-                System.out.println("Invalid difficulty level. Please choose from easy, medium, or difficult.");
+                System.out.println("Lütfen geçerli bir zorluk giriniz!");
                 return;
             }
 
-            int numQuestionsToAsk = 3; // You can adjust the number of questions
-            List<Question> chosenQuestions = getRandomQuestions(questions, numQuestionsToAsk);
 
-            int totalChoiceScore = 0;
-            List<Choice> userChoices = new ArrayList<>();
 
-            for (Question question : chosenQuestions) {
-                System.out.println(question.getContent());
-                List<Choice> choices = question.getChoices();
 
-                for (Choice choice : choices) {
-                    System.out.println(choice.getId() + ": " + choice.getContent());
-                }
 
-                System.out.print("Your choice (Enter the choice ID): ");
-                int userChoiceId = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-
-                for (Choice choice : choices) {
-                    if (choice.getId() == userChoiceId) {
-                        totalChoiceScore += choice.getChoiceScore();
-                        userChoices.add(choice);
-                        break;
-                    }
-                }
-            }
-
-            System.out.println("Your total choice score: " + totalChoiceScore);
         } catch (IOException e) {
             e.printStackTrace();
         }
